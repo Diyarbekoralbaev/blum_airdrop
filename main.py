@@ -44,13 +44,23 @@ def read_users_count():
     db = Database()
     count = db.users_count()
     db.close()
-    return count
+    return {
+        "count": count
+    }
 
 @app.get("/users/{user_hash}")
 def read_user(user_hash: str):
     db = Database()
     user = db.get_user_with_hash(user_hash)
     db.close()
+    user = {
+        "tg_id": user[1],
+        "tg_name": user[2],
+        "tg_username": user[3],
+        "balance": user[4],
+        "last_time_mine": user[6],
+        "next_time_mine": user[7]
+    }
     return user
 
 @app.get("/users/{user_hash}/balance")
@@ -58,14 +68,18 @@ def read_user_balance(user_hash: str):
     db = Database()
     user = db.get_user_with_hash(user_hash)
     db.close()
-    return user[4]
+    return {
+        "balance": user[4]
+    }
 
 @app.get("/users/{user_hash}/get_mining_reward")
 def read_user_mining_reward(user_hash: str):
     db = Database()
     reward = db.get_mining_reward(user_hash)
     db.close()
-    return reward
+    return {
+        "reward": reward
+    }
 
 @app.get("/users/{user_hash}/referrals")
 def read_user_referrals(user_hash: str):
