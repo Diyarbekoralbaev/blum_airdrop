@@ -38,7 +38,7 @@ class Database:
             )
         """)
 
-        self.conn.autocommit = True
+        self.conn.isolation_level = None # autocommit
 
         
     def tg_add_user(self, tg_id, tg_name, tg_username):
