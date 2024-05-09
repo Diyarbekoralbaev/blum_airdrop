@@ -1,8 +1,6 @@
 import asyncio
 import logging
 import sys
-from dotenv import load_dotenv
-import os
 from aiogram import Bot, Dispatcher, F, html
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -12,25 +10,12 @@ from aiogram.types import User
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.deep_linking import decode_payload, create_start_link
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
-
-class CheckUserJoinedToChannel(BaseMiddleware):
-    async def on_pre_process_message(self, message: Message, data: dict):
-        channel_id = os.getenv("CHANNEL_ID")
-        try:
-            chat_member = await message.bot.get_chat_member(channel_id, message.from_user.id)
-            if chat_member.status not in ["member", "administrator", "creator"]:
-                await message.answer("Please join the channel to use the bot!", reply_markup=F.inline_button("Join channel", url=os.getenv("CHANNEL_LINK")))
-                return False
-        except Exception as e:
-            await message.answer("Oops! Something went wrong. Please try again later.")
-            return False
 from database import Database
 
-load_dotenv()
 
-TOKEN = os.getenv("BOT_TOKEN")
-BOT_USERNAME = os.getenv("BOT_USERNAME")
-WEBSITE_URL = os.getenv("WEBSITE_URL")
+TOKEN = "6569920426:AAFE8ccq6F6IQwUB-mM4rcfQlhwEB1D_DDo"
+BOT_USERNAME = "chipicoin_bot"
+WEBSITE_URL = "https://chipicoin.com"
 
 dp = Dispatcher()
 
